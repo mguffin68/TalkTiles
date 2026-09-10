@@ -1,0 +1,512 @@
+.aac-app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  background: #f4f4f6;
+}
+
+.aac-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: #ffffff;
+  border-bottom: 2px solid #ddd;
+  flex-shrink: 0;
+}
+
+.aac-header--edit {
+  background: #f9c8dc;
+  border-bottom-color: #e8a0c0;
+}
+
+.aac-title {
+  font-size: 1.4rem;
+  margin: 0;
+  color: #333;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.aac-nav-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 12px;
+  border: 2px solid #ccc;
+  background: #fafafa;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  min-height: 3rem;
+  min-width: 6rem;
+  box-sizing: border-box;
+}
+
+.aac-nav-button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.aac-nav-button:not(:disabled):active {
+  background: #e0e0e0;
+}
+
+.aac-nav-button--drop-target {
+  background: #d7ecff;
+  border-color: #4a90d9;
+}
+
+.aac-nav-button--primary {
+  background: #333;
+  color: #fff;
+  border-color: #333;
+}
+
+.aac-nav-button--primary:not(:disabled):active {
+  background: #000;
+}
+
+.aac-nav-button--icon-only {
+  min-width: 3rem;
+  padding: 0.75rem;
+}
+
+.aac-nav-button__icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  flex-shrink: 0;
+}
+
+.aac-header-right {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.aac-nav-button--edit.aac-nav-button--active {
+  background: #333;
+  color: #fff;
+  border-color: #333;
+}
+
+main {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.aac-sentence-strip {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 1rem;
+  background: #fff;
+  border-bottom: 2px solid #ddd;
+  flex-shrink: 0;
+}
+
+.aac-sentence-strip__words {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  overflow-x: auto;
+  min-height: 3rem;
+}
+
+.aac-sentence-strip__placeholder {
+  color: #999;
+  font-size: 1rem;
+  white-space: nowrap;
+}
+
+.aac-sentence-strip__chip {
+  flex-shrink: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  font-family: inherit;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  border: 2px solid rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  white-space: nowrap;
+}
+
+.aac-sentence-strip__actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.aac-error {
+  font-size: 1.2rem;
+  color: #a33;
+  text-align: center;
+}
+
+.aac-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  grid-auto-rows: min-content;
+  align-content: start;
+  gap: 1rem;
+}
+
+.aac-tile-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.aac-tile-wrapper--dragging {
+  opacity: 0.4;
+}
+
+.aac-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  /* .aac-tile is itself a flex item (in .aac-tile-wrapper), and flex items
+     default to min-height:auto — a content-based floor that lets a large
+     icon/photo override aspect-ratio and stretch the tile taller. min-height
+     0 removes that floor; overflow hidden is a hard backstop so the square
+     can never be exceeded regardless. */
+  min-height: 0;
+  overflow: hidden;
+  padding: 1rem 0.5rem;
+  border-radius: 16px;
+  border: 3px solid rgba(0, 0, 0, 0.15);
+  font-size: 1.3rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: #222;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  transition: transform 0.05s ease;
+  box-sizing: border-box;
+}
+
+.aac-tile:active {
+  transform: scale(0.95);
+}
+
+.aac-tile__label {
+  text-align: center;
+  line-height: 1.15;
+  flex: 0 0 auto;
+}
+
+.aac-tile__icon {
+  /* Fills whatever space the label doesn't need, so the icon scales up with
+     the tile instead of staying a fixed size — the label just sits below it
+     at its natural size. */
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 0;
+  object-fit: contain;
+}
+
+/* Part-of-speech color coding */
+.aac-tile--pronoun {
+  background: #fff2a8;
+}
+
+.aac-tile--verb {
+  background: #b7e6b0;
+}
+
+.aac-tile--descriptor {
+  background: #a9d3f5;
+}
+
+.aac-tile--social {
+  background: #f7b8d6;
+}
+
+.aac-tile--noun {
+  background: #ffd08a;
+}
+
+.aac-tile--folder {
+  /* Same size/shape as every other tile (all inherited from .aac-tile above)
+     — just plain white with a heavier border so a Group tile still reads as
+     visually distinct from the part-of-speech-colored ones. */
+  background: #ffffff;
+  border: 4px solid #1a1a1a;
+}
+
+.aac-tile--editable {
+  outline: 3px dashed #888;
+  outline-offset: 2px;
+}
+
+.aac-tile--add {
+  background: #eee;
+  border-style: dashed;
+  color: #666;
+}
+
+.aac-tile__add-icon {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+/* Edit/Move controls, shown below each tile in Edit Mode */
+.aac-tile__controls {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.aac-tile__control-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  min-height: 2.75rem;
+  padding: 0.4rem;
+  border-radius: 10px;
+  border: 2px solid #ccc;
+  background: #fafafa;
+  color: #333;
+  font-size: 0.9rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  box-sizing: border-box;
+}
+
+.aac-tile__control-btn:active {
+  background: #e8e8e8;
+}
+
+.aac-tile__control-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.aac-tile__control-btn--move {
+  /* Without this, touch devices treat a drag as a page-scroll gesture and
+     swallow it before dnd-kit's pointer sensor ever sees the movement. */
+  touch-action: none;
+}
+
+/* Button editor modal */
+.aac-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 100;
+}
+
+.aac-modal {
+  background: #fff;
+  border-radius: 16px;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 420px;
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.aac-modal h2 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.aac-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.aac-field input,
+.aac-field select {
+  font-size: 1.1rem;
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: 2px solid #ccc;
+}
+
+.aac-field-hint {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #666;
+  background: #f4f4f6;
+  border-radius: 8px;
+  padding: 0.6rem 0.8rem;
+}
+
+.aac-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.aac-modal-button {
+  font-size: 1rem;
+  padding: 0.6rem 1.1rem;
+  border-radius: 10px;
+  border: 2px solid #ccc;
+  background: #fafafa;
+  cursor: pointer;
+}
+
+.aac-modal-button--primary {
+  background: #333;
+  color: #fff;
+  border-color: #333;
+}
+
+.aac-modal-button--danger {
+  background: #fff;
+  color: #b3261e;
+  border-color: #b3261e;
+  margin-right: auto;
+}
+
+.aac-confirm-delete {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 0.8rem;
+  border-radius: 10px;
+  background: #fdeceb;
+  border: 2px solid #f3b8b3;
+}
+
+.aac-confirm-delete p {
+  margin: 0;
+  color: #7a1f18;
+  font-size: 0.95rem;
+}
+
+.aac-confirm-delete .aac-modal-actions {
+  margin-top: 0;
+}
+
+/* Icon picker */
+.aac-icon-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.aac-icon-picker input {
+  font-size: 1.1rem;
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: 2px solid #ccc;
+}
+
+.aac-icon-picker__current {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.aac-icon-picker__preview {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  border-radius: 8px;
+  border: 2px solid #ddd;
+  background: #fafafa;
+}
+
+.aac-icon-picker__preview--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  color: #999;
+  text-align: center;
+}
+
+.aac-icon-picker__tabs {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.aac-icon-picker__tab {
+  flex: 1;
+  font-size: 0.9rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 2px solid #ccc;
+  background: #fafafa;
+  cursor: pointer;
+}
+
+.aac-icon-picker__tab--active {
+  background: #333;
+  color: #fff;
+  border-color: #333;
+}
+
+.aac-icon-picker__upload input[type="file"] {
+  width: 100%;
+  font-size: 0.9rem;
+  padding: 0.5rem;
+}
+
+.aac-icon-picker__status {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #777;
+}
+
+.aac-icon-picker__results {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(56px, 1fr));
+  gap: 0.5rem;
+  max-height: 180px;
+  overflow-y: auto;
+  padding: 0.25rem;
+  border: 2px solid #eee;
+  border-radius: 8px;
+}
+
+.aac-icon-picker__result {
+  padding: 0.25rem;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background: #fafafa;
+  cursor: pointer;
+}
+
+.aac-icon-picker__result img {
+  width: 100%;
+  height: 40px;
+  object-fit: contain;
+  display: block;
+}
+
+.aac-icon-picker__result--selected {
+  border-color: #333;
+  background: #eee;
+}

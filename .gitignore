@@ -1,0 +1,11 @@
+node_modules/
+app/dist/
+app/dev-dist/
+.DS_Store
+
+# Runtime data: the SQLite DB (personal board content), uploaded family
+# photos, and the ~330MB downloaded ARASAAC icon set + its metadata — all
+# regenerable via backend/scripts/download-icons.js, none of it belongs in
+# version control.
+backend/data/*
+!backend/data/.gitkeep
