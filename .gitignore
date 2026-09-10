@@ -6,6 +6,9 @@ app/dev-dist/
 # Local dev-tooling config, not project source (same category as .vscode/.idea)
 .claude/
 
+# Original planning doc, not meant to be published with the project
+aac-app-plan.md
+
 # Runtime data: the SQLite DB (personal board content), uploaded family
 # photos, and the ~330MB downloaded ARASAAC icon set + its metadata — all
 # regenerable via backend/scripts/download-icons.js, none of it belongs in
