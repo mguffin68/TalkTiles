@@ -253,6 +253,20 @@ app.post("/api/buttons/:id/move", (req, res) => {
   res.json(buttonRow(row));
 });
 
+// The built frontend, copied in here at Docker image build time. In dev,
+// the frontend runs separately via Vite, so this directory just won't exist
+// — express.static and sendFile both no-op harmlessly in that case.
+const publicDir = path.join(__dirname, "..", "public");
+app.use(express.static(publicDir));
+
+// SPA fallback so a hard reload on a client-side route (e.g. /edit) doesn't
+// 404 — must come after every other route above.
+app.get(/^(?!\/api|\/icons|\/uploads).*/, (req, res, next) => {
+  res.sendFile(path.join(publicDir, "index.html"), (err) => {
+    if (err) next();
+  });
+});
+
 const PORT = process.env.PORT ?? 3001;
 app.listen(PORT, () => {
   console.log(`AAC backend listening on http://localhost:${PORT}`);

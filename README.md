@@ -2,6 +2,37 @@
 
 A locally-hosted, tap-to-speak AAC (Augmentative and Alternative Communication) board. Runs as an installable PWA on a tablet, speaks over the Web Speech API, and works fully offline once loaded — no cloud dependency, no accounts, no internet required to use it day to day.
 
+## Run it with Docker
+
+The easiest way to self-host TalkTiles — no Node.js install required, just Docker:
+
+```bash
+docker run -d \
+  --name talktiles \
+  -p 3001:3001 \
+  -v talktiles-data:/app/data \
+  ghcr.io/mguffin68/talktiles:latest
+```
+
+Then open `http://<this-machine's-address>:3001`. The container downloads the ARASAAC icon set on its first boot only (~330MB, one-time); the named volume keeps your boards, uploaded photos, and that icon cache across restarts and updates.
+
+Or with Compose:
+
+```yaml
+services:
+  talktiles:
+    image: ghcr.io/mguffin68/talktiles:latest
+    ports:
+      - "3001:3001"
+    volumes:
+      - talktiles-data:/app/data
+    restart: unless-stopped
+volumes:
+  talktiles-data:
+```
+
+To build from source instead of pulling the published image, clone this repo and run `docker compose up` — the included `docker-compose.yml` builds the image locally.
+
 ## Features
 
 - **Grid-based communication boards** with folder navigation between categories (e.g. Food, People, Feelings), a persistent Home/Back header, and consistent color-coding by part of speech.
@@ -20,7 +51,7 @@ A locally-hosted, tap-to-speak AAC (Augmentative and Alternative Communication) 
 | Backend | Node/Express |
 | Data | SQLite (boards/buttons) + local filesystem (uploaded photos, icon cache) |
 
-## Getting started
+## Running from source (for development)
 
 Requires Node.js.
 
@@ -49,6 +80,6 @@ backend/   Express API + SQLite storage
   data/    SQLite DB, uploaded photos, downloaded icons — all gitignored
 ```
 
-## Licensing note
+## Licensing
 
-Icon pictograms are from [ARASAAC](https://arasaac.org), © Government of Aragón, licensed CC BY-NC-SA. Free for personal/non-commercial use; credit ARASAAC + Gobierno de Aragón if you share this further.
+The code in this repository is [MIT licensed](LICENSE). Icon pictograms are downloaded separately at setup time from [ARASAAC](https://arasaac.org), © Government of Aragón, licensed **CC BY-NC-SA** — noncommercial use only, and credit ARASAAC + Gobierno de Aragón if you share this further. The icon license is independent of and unaffected by the code's MIT license.

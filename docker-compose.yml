@@ -1,0 +1,11 @@
+services:
+  talktiles:
+    build: .
+    ports:
+      - "3001:3001"
+    volumes:
+      - talktiles-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  talktiles-data:

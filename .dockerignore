@@ -1,0 +1,7 @@
+node_modules
+.git
+app/dist
+app/dev-dist
+backend/data
+.claude
+aac-app-plan.md
